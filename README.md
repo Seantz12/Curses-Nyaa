@@ -13,15 +13,17 @@ seeders/leechers/date/etc.
 
 Displays everything in a curses interface
 
+Seamlessly navigate between multiple pages on Nyaa (no clicking next page!)
+
 
 Features that don't work (need fixing):
 
-Interface is still a little buggy, some issues with displaying torrents
+FIX TAHT UGLY INTERFACE GOD PLEASE
+
+main_screen.py line 34-36, change temp to perm fix
 
 
 Planned features:
-
-Ability to go to second page and beyond (pretty easy to implement)
 
 Ability to download magnet link directly from console and start torrent
 
