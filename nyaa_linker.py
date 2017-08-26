@@ -28,7 +28,7 @@ def return_torrents(prefernces, anime_name, webpage):
 		quality = row.get('class')[0]
 		quality[4:-2] # gets rid of the unneeded bits (['u']) part
 		torrent_info = ''
-		if(prefernces[2] == 'false' or quality == 'success'):
+		if prefernces[2] == 'false' or quality == 'success':
 			torrent_info += return_category(row) + '\n'
 			torrent_info += return_torrent_title(row) + '\n'
 			torrent_info += return_seeder_leecher_count(row) + '\n\n'
@@ -37,7 +37,6 @@ def return_torrents(prefernces, anime_name, webpage):
 	if len(results) == 0:
 		return 'No results found, try changing your search filters'
 	else:
-		results.append('End of page')
 		return results
 
 def return_torrent_title(row):
@@ -46,7 +45,7 @@ def return_torrent_title(row):
 	torrent_file = element[1] # this is the part that contains the torrent name
 	torrent_link = torrent_file.findAll('a') # gets rid of the comment link if any
 
-	if(len(torrent_link) > 1):
+	if len(torrent_link) > 1:
 		return torrent_link[1].text.strip()
 	else:
 		return torrent_link[0].text.strip()
