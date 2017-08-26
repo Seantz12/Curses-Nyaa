@@ -1,7 +1,3 @@
-# TODO:
-# Add a filter for anime only and other shit, subs/raws/whatever the hell else there is
-# Make code look neater
-# Publish that shit yo
 from bs4 import BeautifulSoup
 import urllib, urllib2
 
