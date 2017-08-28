@@ -4,7 +4,7 @@ Searches Nyaa for torrents and hopefully will allow you to download them using y
 
 Features that work:
 
-Can search for torrents
+Can search for torrents (No longer works on uriwd version, need to find way to take inputs)
 
 Can view seeders and leechers as well as category (Anime, literature, etc.)
 
@@ -29,7 +29,7 @@ Ability to download magnet link directly from console and start torrent
 
 Ability to actually change settings (yeah... kind of didn't do that yet lol)
 
-Make it actually look nice, will provide image of design at some point
+Make it actually look nice, will provide image of design at some point (URWID looks WAY better)
 
 
 Possible Features:
