@@ -8,6 +8,7 @@ class trt:
     webpage = 1
     last_webpage = 0
     all_results = ''
+    name = ''
 
 # class ListOfTorrents:
 #     page = 1
@@ -27,10 +28,13 @@ header_text = urwid.Text(u"Nyaa Torrent Downloader 1.0", align='center')
 header = urwid.AttrMap(header_text, 'title')
 
 # Control section
-control_info = urwid.Text(('controls', \
+control_info = urwid.Edit(('controls', \
     "I-> Input search term              J-> Next page\n" + \
     "D-> Download torrents              K-> Previous page\n" + \
-    "Q-> Exit program"))
+    "Q-> Exit program\n"),
+    u"")
+
+
 
 # Section to store torrents
 torrent_text = urwid.Text(u"Press I to begin!")
@@ -74,7 +78,7 @@ def write_settings():
 
 def get_torrents(): # Self explanatory
     if(trt.webpage != trt.last_webpage):
-       everything = nyaa_linker.return_torrents(read_settings(), 'test', trt.webpage)
+       everything = nyaa_linker.return_torrents(read_settings(), trt.name, trt.webpage)
        trt.all_results = everything[0]
        trt.last_webpage += 1
        # TEMP FIX, tired from coding, will fix later
@@ -85,6 +89,7 @@ def get_torrents(): # Self explanatory
 
 def handle_input(key):
     if key == 'I' or key == 'i': # Gets the torrents
+        trt.name = raw_input("plz type anime")
         torrent_section.base_widget.set_text(('torrent', 'Retrieving torrents...'))
         loop.draw_screen()
         torrent_section.base_widget.set_text(get_torrents())
@@ -96,7 +101,7 @@ def handle_input(key):
             torrent_section.base_widget.set_text(('torrent', 'Retrieving torrents...'))
             loop.draw_screen()
         torrent_section.base_widget.set_text(get_torrents())
-    elif key == 'k': # Goes back to previous page
+    elif key == 'k' and not(trt.page == 1 and trt.webpage == 1): # Goes back to previous page
         trt.page -= 1
         if trt.page == 0:
             trt.webpage -= 1
