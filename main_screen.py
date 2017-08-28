@@ -1,5 +1,6 @@
 import curses
 from curses import wrapper
+import urwid
 import nyaa_linker
 import time
 import sys
