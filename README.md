@@ -4,33 +4,30 @@ Searches Nyaa for torrents and hopefully will allow you to download them using y
 
 Features that work:
 
-Can search for torrents (No longer works on uriwd version, need to find way to take inputs)
+Can search for torrents
 
 Can view seeders and leechers as well as category (Anime, literature, etc.)
 
 Can filter through trusted only vs everything, can sort by asec or desc and 
 seeders/leechers/date/etc.
 
-Displays everything in a curses interface
+Can download magnet links directly from console (only works with transmission)!
+
+Displays everything in a curses (urwid) interface
+
+Interface that doesn't look awful! Not great! But not awful!
 
 Seamlessly navigate between multiple pages on Nyaa (no clicking next page!)
 
 
 Features that don't work (need fixing):
 
-FIX TAHT UGLY INTERFACE GOD PLEASE
-
-main_screen.py line 34-36, change temp to perm fix
+Fix temp fixes
 
 
 Planned features:
 
-Ability to download magnet link directly from console and start torrent
-
 Ability to actually change settings (yeah... kind of didn't do that yet lol)
-
-Make it actually look nice, will provide image of design at some point (URWID looks WAY better)
-
 
 Possible Features:
 

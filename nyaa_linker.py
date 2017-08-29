@@ -17,7 +17,7 @@ def return_torrents(prefernces, anime_name, webpage):
 		table_body = soup.find('table')
 		torrent_list = table_body.find('tbody')
 	except AttributeError:
-		return "\nNo results found, try a different search term\n"
+		return "No results found, try a different search term"
 
 	results = []
 	magnet_links = []
