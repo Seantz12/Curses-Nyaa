@@ -24,8 +24,6 @@ Seamlessly navigate between multiple pages on Nyaa (no clicking next page!)
 
 ## Features that don't work (need fixing):
 
-Colors leave weird black shade in background, possibly due to terminal settings
-
 Don't hardcode the crash prevetion for search results not found
 
 Reaching the very end of results (like no more results period) causes crash
