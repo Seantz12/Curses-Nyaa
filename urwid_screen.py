@@ -18,22 +18,22 @@ class trt:
 
 # Color scheme
 palette = [
-    ('title', 'light cyan', 'black'),
-    ('controls', 'light blue', 'black'),
-    ('category', 'dark magenta', 'black'),
-    ('torrent_title', 'white', 'black'),
-    ('seeders', 'light green', 'black'),
-    ('leechers', 'light red', 'black')]
+    ('title', 'light cyan', 'default'),
+    ('controls', 'light blue', 'default'),
+    ('category', 'light magenta', 'default'),
+    ('torrent_title', 'white', 'default'),
+    ('seeders', 'light green', 'default'),
+    ('leechers', 'light red', 'default')]
 
 # Header info
 header_text = urwid.Text(u"Nyaa Torrent Downloader 1.0", align='center')
 header = urwid.AttrMap(header_text, 'title')
 
 # Control section
-control_info = urwid.Edit(('controls', \
+control_info = urwid.Edit([('controls', \
     "I-> Input search term              D-> Download torrents\n" + \
     "J-> Next Page                      K-> Previous page\n" + \
-    "Enter-> Search torrents            Q-> Exit program\n\n>"),
+    "Enter-> Search torrents            Q-> Exit program\n\n"), ">"],
     u"")
 # fill = QuestionBox(control_info)
 
@@ -59,7 +59,7 @@ def list_torrents(c, t, s, l, section): # Converts lists to a string to be displ
             # This formats and colors the text to be returned
             string.append(('category', c[index]))
             string.append('\n')
-            string.append(('titles', t[index]))
+            string.append(('torrent_title', t[index]))
             string.append('\n')
             string.append(('seeders', s[index]))
             string.append('     ')
@@ -69,7 +69,7 @@ def list_torrents(c, t, s, l, section): # Converts lists to a string to be displ
         for index in range(lower_bound, (lower_bound + 5)):
             string.append(('category', c[index]))
             string.append('\n')
-            string.append(('titles', t[index]))
+            string.append(('torrent_title', t[index]))
             string.append('\n')
             string.append(('seeders', s[index]))
             string.append('     ')
