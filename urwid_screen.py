@@ -11,16 +11,19 @@ class trt:
     entry_mode = 0
     last_webpage = 0
     test = 0
-    all_results = ''
     magnet_links =''
     name = ''
+    welcome_message = 'Welcome to the Nyaa torrent downloader!'
     torrent_client = 'transmission-gtk'
 
 # Color scheme
 palette = [
     ('title', 'light cyan', 'black'),
     ('controls', 'light blue', 'black'),
-    ('torrent', 'white', 'black')]
+    ('category', 'dark magenta', 'black'),
+    ('torrent_title', 'white', 'black'),
+    ('seeders', 'light green', 'black'),
+    ('leechers', 'light red', 'black')]
 
 # Header info
 header_text = urwid.Text(u"Nyaa Torrent Downloader 1.0", align='center')
@@ -30,7 +33,7 @@ header = urwid.AttrMap(header_text, 'title')
 control_info = urwid.Edit(('controls', \
     "I-> Input search term              D-> Download torrents\n" + \
     "J-> Next Page                      K-> Previous page\n" + \
-    "Enter-> Search torrents            Q-> Exit program\n\n"),
+    "Enter-> Search torrents            Q-> Exit program\n\n>"),
     u"")
 # fill = QuestionBox(control_info)
 
@@ -46,18 +49,33 @@ torrent_section = urwid.LineBox(v_padding)
 # Put it all into one layout
 layout = urwid.Frame(header=header, body=torrent_section, footer=control_info)
 
-def list_torrents(all_torrents, section): # Converts lists to a string to be displayed easily
-    string = ''
+def list_torrents(c, t, s, l, section): # Converts lists to a string to be displayed easily
+    string = []
     lower_bound = (section-1)*5 # Makes the index ranges (0-4, 5-9, etc.)
-    if isinstance(all_torrents, basestring): # This only happens when one result, or error result so yeah
-        string += all_torrents
-    elif len(all_torrents) < lower_bound + 5: # In case we reach the end, doesn't go over bounds
-        for index in range(lower_bound, len(all_torrents)):
-            string += all_torrents[index]
+    # if isinstance(all_torrents, basestring): # This only happens when one result, or error result so yeah
+    #     string += all_torrents
+    if len(c) < lower_bound + 5: # In case we reach the end, doesn't go over bounds
+        for index in range(lower_bound, len(c)):
+            # This formats and colors the text to be returned
+            string.append(('category', c[index]))
+            string.append('\n')
+            string.append(('titles', t[index]))
+            string.append('\n')
+            string.append(('seeders', s[index]))
+            string.append('     ')
+            string.append(('leechers', l[index]))
+            string.append('\n\n')
     else:
         for index in range(lower_bound, (lower_bound + 5)):
-            string += all_torrents[index]
-    if string == '':
+            string.append(('category', c[index]))
+            string.append('\n')
+            string.append(('titles', t[index]))
+            string.append('\n')
+            string.append(('seeders', s[index]))
+            string.append('     ')
+            string.append(('leechers', l[index]))
+            string.append('\n\n')
+    if len(string) == 0:
         return 'Nothing left!'
     else:
         return string
@@ -76,25 +94,25 @@ def write_settings(): # Work in progress
     file = open("settings", "w")
 
 def get_torrents(): # Self explanatory
-    if(trt.webpage != trt.last_webpage):
+    if(trt.webpage != trt.last_webpage): # Only gets the url and everything IF needed
         everything = nyaa_linker.return_torrents(read_settings(), trt.name, trt.webpage)
-        trt.all_results = everything[0]
-        trt.magnet_links = everything[1]
+        trt.categories = everything[0]
+        trt.titles = everything[1]
+        trt.seeders = everything[2]
+        trt.leechers = everything[3]
+        trt.magnet_links = everything[4]
         trt.last_webpage += 1
-        # TEMP FIX, tired from coding, will fix later
-        if(trt.last_webpage == trt.webpage + 2):
+        if(trt.last_webpage == trt.webpage + 2): # This covers the going back previous pages
             trt.last_webpage -= 2
-    entries = list_torrents(trt.all_results, trt.page)
-    if entries == 'N': # Hard coded, need to fix this as well
+    entries = list_torrents(trt.categories, trt.titles, trt.seeders, trt.leechers, trt.page)
+    if trt.categories == 'N': # Hard coded, need to fix this as well
         return 'No results found, try a different search term'
     return entries
 
-def reset(mag):
+def reset():
     trt.page = 1
     trt.webpage = 1
     trt.last_webpage = 0
-    trt.all_results = ''
-    trt.name = ''
 
 def handle_input(key):
     if key == 'I' or key == 'i':
@@ -103,14 +121,15 @@ def handle_input(key):
         trt.entry_mode = 1
     elif key == 'enter':
         # Ok, I would like to apologize for this. Basically, to get input
-        # I've made it so that it 
+        # I've made it so that it changes focus to the edit text
         if trt.entry_mode == 1:
+            reset()
+            layout.set_focus('header')
             trt.name = control_info.edit_text
             torrent_section.base_widget.set_text(('torrent', 'Retrieving torrents...'))
             loop.draw_screen()
             torrent_section.base_widget.set_text(get_torrents())
             control_info.set_edit_text('')
-            layout.set_focus('header')
         elif trt.entry_mode == 2:
             # try:
             num = int(control_info.edit_text)

@@ -19,23 +19,31 @@ def return_torrents(prefernces, anime_name, webpage):
 	except AttributeError:
 		return "No results found, try a different search term"
 
-	results = []
+	categories = []
+	titles = []
+	seeders = []
+	leechers = []
+	# results =[]
 	magnet_links = []
 	for row in torrent_list.findAll("tr"): # iterates through each torrent row
 		quality = row.get('class')[0]
 		quality[4:-2] # gets rid of the unneeded bits (['u']) part
 		torrent_info = ''
 		if prefernces[2] == 'false' or quality == 'success':
-			torrent_info += return_category(row) + '\n'
-			torrent_info += return_torrent_title(row) + '\n'
-			torrent_info += return_seeder_leecher_count(row) + '\n\n'
-			results.append(torrent_info)
+			# torrent_info += return_category(row) + '\n'
+			# torrent_info += return_torrent_title(row) + '\n'
+			# torrent_info += return_seeder_leecher_count(row) + '\n\n'
+			# results.append(torrent_info)
+			categories.append(return_category(row))
+			titles.append(return_torrent_title(row))
+			seeders.append(return_seeder_leecher_count(row)[0])
+			leechers.append(return_seeder_leecher_count(row)[1])
 			magnet_links.append(return_magnet_link(row))
 
-	if len(results) == 0:
-		return 'No results found, try changing your search filters'
+	if len(categories) == 0: # doesn't matter which array i use, if no results, all will be 0
+		return ''
 	else:
-		return results, magnet_links
+		return categories, titles, seeders, leechers, magnet_links
 
 def retry(url): # Keeps at it until you get something
 	try:
@@ -60,7 +68,7 @@ def return_seeder_leecher_count(row):
 	seeders = element[5]
 	leechers = element[6]
 
-	return 'Seeders: ' + seeders.text.strip() + ' Leechers: ' + leechers.text.strip()
+	return ('Seeders: ' + seeders.text.strip()), (' Leechers: ' + leechers.text.strip())
 
 def return_category(row):
 	element = row.find('td')
