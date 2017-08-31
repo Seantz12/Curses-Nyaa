@@ -11,6 +11,7 @@ class trt:
     entry_mode = 0
     last_webpage = 0
     test = 0
+    empty = True
     magnet_links =''
     name = ''
     welcome_message = 'Welcome to the Nyaa torrent downloader!'
@@ -38,7 +39,7 @@ control_info = urwid.Edit([('controls', \
 # fill = QuestionBox(control_info)
 
 # Section to store torrents
-torrent_text = urwid.Text(u"Welcome to the Nyaa torrent downloader!")
+torrent_text = urwid.Text(trt.welcome_message)
 # This creates the border surrounding the main text
 torrent_filler = urwid.Filler(torrent_text, valign='top', top=1, bottom=1)
 v_padding = urwid.Padding(torrent_filler, left=1, right=1)
@@ -76,7 +77,7 @@ def list_torrents(c, t, s, l, section): # Converts lists to a string to be displ
             string.append(('leechers', l[index]))
             string.append('\n\n')
     if len(string) == 0:
-        return 'Nothing left!'
+        return 'N'
     else:
         return string
 
@@ -96,6 +97,7 @@ def write_settings(): # Work in progress
 def get_torrents(): # Self explanatory
     if(trt.webpage != trt.last_webpage): # Only gets the url and everything IF needed
         everything = nyaa_linker.return_torrents(read_settings(), trt.name, trt.webpage)
+        # Arranges everything into nice little arrays to be accessed later
         trt.categories = everything[0]
         trt.titles = everything[1]
         trt.seeders = everything[2]
@@ -105,14 +107,17 @@ def get_torrents(): # Self explanatory
         if(trt.last_webpage == trt.webpage + 2): # This covers the going back previous pages
             trt.last_webpage -= 2
     entries = list_torrents(trt.categories, trt.titles, trt.seeders, trt.leechers, trt.page)
-    if trt.categories == 'N': # Hard coded, need to fix this as well
-        return 'No results found, try a different search term'
+    if trt.categories == 'N' or entries[0] == 'N': # Covers the event that there is nothing returned
+        trt.empty = True
+        return 'No results found'
+    trt.empty = False
     return entries
 
 def reset():
     trt.page = 1
     trt.webpage = 1
     trt.last_webpage = 0
+    trt.empty = False
 
 def handle_input(key):
     if key == 'I' or key == 'i':
@@ -135,22 +140,28 @@ def handle_input(key):
             num = int(control_info.edit_text)
             if num <= 5 and num >= 1:
                 magnet_index = (trt.page-1)*5 + (num-1)
-                FNULL = open(os.devnull, 'w')
                 try:
+                    FNULL = open(os.devnull, 'w')
                     subprocess.Popen([trt.torrent_client, trt.magnet_links[magnet_index]], \
                         stdin=subprocess.PIPE, stdout=FNULL, stderr=subprocess.STDOUT)
                 except IndexError:
                     print trt.torrent_client
                     print magnet_index
                     print trt.magnet_links
-                control_info.set_edit_text('')
+                control_info.set_edit_text('') # Resets the console bottom part
+                control_info.set_caption([('controls', \
+                        "I-> Input search term              D-> Download torrents\n" + \
+                        "J-> Next Page                      K-> Previous page\n" + \
+                        "Enter-> Search torrents            Q-> Exit program\n\n"), ">"])
                 layout.set_focus('header')
             # except ValueError:
             #     control_info.set_edit_text('Try again')
-    elif key == 'D' or key == 'd':
+    elif key == 'D' or key == 'd' and not trt.empty:
         layout.set_focus('footer')
+        control_info.set_caption([('controls', "Please enter a number between one and five\n\n\n\n")\
+            , ">"])
         trt.entry_mode = 2
-    elif key == 'j': # Advances to the next page
+    elif key == 'J' or key == 'j' and not trt.empty: # Advances to the next page unless nothing left
         trt.page += 1
         if trt.page == 16: # Nyaa has maximum 75 entries, therefore after the 15th page it needs to load something new
             trt.webpage += 1
@@ -158,7 +169,7 @@ def handle_input(key):
             torrent_section.base_widget.set_text(('torrent', 'Retrieving torrents...'))
             loop.draw_screen()
         torrent_section.base_widget.set_text(get_torrents())
-    elif key == 'k' and not(trt.page == 1 and trt.webpage == 1): # Goes back to previous page
+    elif key == 'K' or key == 'k' and not(trt.page == 1 and trt.webpage == 1): # Goes back to previous page
         trt.page -= 1
         if trt.page == 0:
             trt.webpage -= 1

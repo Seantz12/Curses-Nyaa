@@ -24,13 +24,7 @@ Seamlessly navigate between multiple pages on Nyaa (no clicking next page!)
 
 ## Features that don't work (need fixing):
 
-Don't hardcode the crash prevetion for search results not found
-
-Reaching the very end of results (like no more results period) causes crash
-
-General optimizations and combing code for useless lines
-
-Prevent user from advancing when there's no results (beginning screen, end of list)
+Nothing! Except general optimization right now
 
 
 ## Planned features:
