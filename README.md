@@ -24,7 +24,8 @@ Seamlessly navigate between multiple pages on Nyaa (no clicking next page!)
 
 ## Features that don't work (need fixing):
 
-Nothing! Except general optimization right now
+When accesing webpage for torrents, user can still buffer next page inputs
+(Trying to find a way to prevent that from happening)
 
 
 ## Planned features:

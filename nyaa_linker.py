@@ -78,5 +78,8 @@ def return_category(row):
 def return_magnet_link(row):
 	element = row.findAll('td')
 	links = element[2].findAll('a')
-	return links[1].get('href')
+	if len(links) == 2:
+		return links[1].get('href')
+	else: # Some torrents ONLY have a magnet link, so this is here to catch that exception (rare though)
+		return links[0].get('href')
 

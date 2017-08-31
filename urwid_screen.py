@@ -2,6 +2,7 @@ import urwid
 import nyaa_linker
 import os
 import subprocess
+import time
 
 # I know these suck, but right now can't think of another way to do this
 # These are variables that remain constant throughout the code
@@ -164,9 +165,10 @@ def handle_input(key):
     elif key == 'J' or key == 'j' and not trt.empty: # Advances to the next page unless nothing left
         trt.page += 1
         if trt.page == 16: # Nyaa has maximum 75 entries, therefore after the 15th page it needs to load something new
+            trt.empty = True
             trt.webpage += 1
             trt.page = 1
-            torrent_section.base_widget.set_text(('torrent', 'Retrieving torrents...'))
+            torrent_section.base_widget.set_text(('torrent', 'Retrieving next page torrents...'))
             loop.draw_screen()
         torrent_section.base_widget.set_text(get_torrents())
     elif key == 'K' or key == 'k' and not(trt.page == 1 and trt.webpage == 1): # Goes back to previous page
@@ -174,7 +176,7 @@ def handle_input(key):
         if trt.page == 0:
             trt.webpage -= 1
             trt.page = 15
-            torrent_section.base_widget.set_text(('torrent', 'Retrieving torrents...'))
+            torrent_section.base_widget.set_text(('torrent', 'Retrieving previous page torrents...'))
             loop.draw_screen()    
         torrent_section.base_widget.set_text(get_torrents())
     elif key == 'Q' or key == 'q':
