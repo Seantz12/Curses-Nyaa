@@ -1,11 +1,15 @@
 import curses
 from curses import wrapper
+import urwid
 import nyaa_linker
 import time
 import sys
 import os
 reload(sys)
 sys.setdefaultencoding("utf-8")
+
+# OUTDATED AND NOT USEFUL ANYMORE! DO NOT USE THIS FILE! IT REMAINS AS A BACKUP FOR ANYTHING
+# TAHT GOES WRONG WITH URWID! BUT NOTHING IS RIGHT NOW! SO THIS FILE SUCKS!
 
 def main(stdscr):
     stdscr.clear()
