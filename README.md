@@ -21,20 +21,6 @@ Colors!
 
 Seamlessly navigate between multiple pages on Nyaa (no clicking next page!)
 
-
-## Features that don't work (need fixing):
-
-When accesing webpage for torrents, user can still buffer next page inputs
-(Trying to find a way to prevent that from happening)
-
-
-## Planned features:
-
-Ability to actually change settings (yeah... kind of didn't do that yet lol, although 
-technically you can just manually change the settings file, but that can cause issues if users
- don't know the specific nyaa format)
-
-
 ## Possible Features:
 
 Automatic downloading/notifying you of new torrents for anime you've selected
