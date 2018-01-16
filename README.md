@@ -31,6 +31,4 @@ Possibly even include other torrent sites
 
 
 ## Author's note
-Yeah, this is my little side project that I'm working on during university, This program is designed
-for those who hate overly extravagent interfaces and prefer lightweight clients. And especially to those
-who prefer using terminal for anything and everything they possibly can, including downloading anime and manga.
+Aimed at those who want to use their terminal to download torrents from nyaa, avoiding adds and browsing nyaa in an efficient format.
