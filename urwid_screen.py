@@ -4,8 +4,6 @@ import os
 import subprocess
 import time
 
-# I know these suck, but right now can't think of another way to do this
-# These are variables that remain constant throughout the code
 class trt:
     page = 1
     webpage = 1
@@ -37,7 +35,6 @@ control_info = urwid.Edit([('controls', \
     "J-> Next Page                      K-> Previous page\n" + \
     "Enter-> Search torrents            Q-> Exit program\n\n"), ">"],
     "")
-# fill = QuestionBox(control_info)
 
 # Section to store torrents
 torrent_text = urwid.Text(trt.welcome_message)
@@ -46,16 +43,12 @@ torrent_filler = urwid.Filler(torrent_text, valign='top', top=1, bottom=1)
 v_padding = urwid.Padding(torrent_filler, left=1, right=1)
 torrent_section = urwid.LineBox(v_padding)
 
-# t = ListOfTorrents
-
 # Put it all into one layout
 layout = urwid.Frame(header=header, body=torrent_section, footer=control_info)
 
 def list_torrents(c, t, s, l, section): # Converts lists to a string to be displayed easily
     string = []
     lower_bound = (section-1)*5 # Makes the index ranges (0-4, 5-9, etc.)
-    # if isinstance(all_torrents, basestring): # This only happens when one result, or error result so yeah
-    #     string += all_torrents
     if len(c) < lower_bound + 5: # In case we reach the end, doesn't go over bounds
         for index in range(lower_bound, len(c)):
             # This formats and colors the text to be returned
@@ -126,8 +119,6 @@ def handle_input(key):
         layout.set_focus('footer')
         trt.entry_mode = 1
     elif key == 'enter':
-        # Ok, I would like to apologize for this. Basically, to get input
-        # I've made it so that it changes focus to the edit text
         if trt.entry_mode == 1:
             reset()
             layout.set_focus('header')
@@ -155,8 +146,6 @@ def handle_input(key):
                         "J-> Next Page                      K-> Previous page\n" + \
                         "Enter-> Search torrents            Q-> Exit program\n\n"), ">"])
                 layout.set_focus('header')
-            # except ValueError:
-            #     control_info.set_edit_text('Try again')
     elif key == 'D' or key == 'd' and not trt.empty:
         layout.set_focus('footer')
         control_info.set_caption([('controls', "Please enter a number between one and five\n\n\n\n")\

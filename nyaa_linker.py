@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import urllib.request, urllib.parse, urllib.error, urllib.request, urllib.error, urllib.parse
+import urllib.request, urllib.parse, urllib.error
 
 def return_torrents(prefernces, anime_name, webpage):
 	# Opens up the website with the search term
@@ -23,17 +23,12 @@ def return_torrents(prefernces, anime_name, webpage):
 	titles = []
 	seeders = []
 	leechers = []
-	# results =[]
 	magnet_links = []
 	for row in torrent_list.findAll("tr"): # iterates through each torrent row
 		quality = row.get('class')[0]
 		quality[4:-2] # gets rid of the unneeded bits (['u']) part
 		torrent_info = ''
 		if prefernces[2] == 'false' or quality == 'success':
-			# torrent_info += return_category(row) + '\n'
-			# torrent_info += return_torrent_title(row) + '\n'
-			# torrent_info += return_seeder_leecher_count(row) + '\n\n'
-			# results.append(torrent_info)
 			categories.append(return_category(row))
 			titles.append(return_torrent_title(row))
 			seeders.append(return_seeder_leecher_count(row)[0])
