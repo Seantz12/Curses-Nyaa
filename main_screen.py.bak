@@ -5,8 +5,7 @@ import nyaa_linker
 import time
 import sys
 import os
-import importlib
-importlib.reload(sys)
+reload(sys)
 sys.setdefaultencoding("utf-8")
 
 # OUTDATED AND NOT USEFUL ANYMORE! DO NOT USE THIS FILE! IT REMAINS AS A BACKUP FOR ANYTHING
@@ -107,7 +106,7 @@ def get_input(stdscr, r, c, prompt_string): # Long story short, prompts user for
 def list_torrents(all_torrents, section): # Converts lists to a string to be displayed easily
     string = ''
     lower_bound = (section-1)*5 # Makes the index ranges (0-4, 5-9, etc.)
-    if isinstance(all_torrents, str): # This only happens when one result, or error result so yeah
+    if isinstance(all_torrents, basestring): # This only happens when one result, or error result so yeah
         string += all_torrents
     elif len(all_torrents) < lower_bound + 5: # In case we reach the end, doesn't go over bounds
         for index in range(lower_bound, len(all_torrents)):

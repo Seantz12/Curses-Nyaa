@@ -28,7 +28,7 @@ palette = [
     ('leechers', 'light red', 'default')]
 
 # Header info
-header_text = urwid.Text("Nyaa Torrent Downloader 1.0", align='center')
+header_text = urwid.Text(u"Nyaa Torrent Downloader 1.0", align='center')
 header = urwid.AttrMap(header_text, 'title')
 
 # Control section
@@ -36,7 +36,7 @@ control_info = urwid.Edit([('controls', \
     "I-> Input search term              D-> Download torrents\n" + \
     "J-> Next Page                      K-> Previous page\n" + \
     "Enter-> Search torrents            Q-> Exit program\n\n"), ">"],
-    "")
+    u"")
 # fill = QuestionBox(control_info)
 
 # Section to store torrents
@@ -146,9 +146,9 @@ def handle_input(key):
                     subprocess.Popen([trt.torrent_client, trt.magnet_links[magnet_index]], \
                         stdin=subprocess.PIPE, stdout=FNULL, stderr=subprocess.STDOUT)
                 except IndexError:
-                    print((trt.torrent_client))
+                    print(trt.torrent_client)
                     print(magnet_index)
-                    print((trt.magnet_links))
+                    print(trt.magnet_links)
                 control_info.set_edit_text('') # Resets the console bottom part
                 control_info.set_caption([('controls', \
                         "I-> Input search term              D-> Download torrents\n" + \

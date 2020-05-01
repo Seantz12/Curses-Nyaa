@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import urllib.request, urllib.parse, urllib.error, urllib.request, urllib.error, urllib.parse
+import urllib, urllib2
 
 def return_torrents(prefernces, anime_name, webpage):
 	# Opens up the website with the search term
@@ -47,9 +47,9 @@ def return_torrents(prefernces, anime_name, webpage):
 
 def retry(url): # Keeps at it until you get something
 	try:
-		req = urllib.request.Request(url, headers={'User-Agent' : "Magic Browser"})
-		return urllib.request.urlopen(req)
-	except urllib.error.HTTPError:
+		req = urllib2.Request(url, headers={'User-Agent' : "Magic Browser"})
+		return urllib2.urlopen(req)
+	except urllib2.HTTPError:
 		retry(url)
 
 def return_torrent_title(row):
